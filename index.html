@@ -23,16 +23,35 @@
 
 <script>
 
-document.getElementById('buton').addEventListener(onclick, (e)=>{
+// Récupération de l'uri cible côté client //
+document.getElementById('buton').addEventListener('click', (e)=>{
     let uri=document.getElementById('input').value;
-})
-if(!uri){
+    
+    if(!uri){
     alert('Veuillez saisir une url');
-    return;
+    return;   
+    }
+    alert(`URI capturée : ${uri}`)
+    fetchUri(uri); // appel de la fonction fetch pour envoyer l'uri au serveur
+})
+
+// fetch de la valeur de l'input pour stocker l'uri cible en session coté serveur//
+
+
+
+async function fetchURI(uri){
+
+    await fetch('index.php', {
+    method:'POST',
+    headers: { 'Content-Type': 'application/json'},
+    body:JSON.stringify(uri)
+    })
+
+.then(response => response.text()) //if success - msg du serveur
+.catch(error => alert("Erreur : " + error));
+
+
 }
 
-if(uri){
-fetch('index.html')
 
-}
 </script>
