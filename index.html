@@ -24,7 +24,6 @@
 
 // Récupération de l'uri cible côté client //
 
-
 document.getElementById('button').addEventListener('click', async(e)=>{
     
     let uri=document.getElementById('input').value;
@@ -34,26 +33,48 @@ document.getElementById('button').addEventListener('click', async(e)=>{
     return;   
     }
     alert(`URI capturée : ${uri}`)
-    await fetchUri(uri); // appel de la fonction fetch pour envoyer l'uri au serveur   
+    await fetchUri(uri); // appel de la fonction fetch pour envoyer l'uri au serveur  
+    
+    //console.log('url saisie coté js ets:'+ param);
+   
 
 })
- 
+
+function fetchUri(param){
+    
+    fetch('index.php',{
+            method:'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body:JSON.stringify({uri:param})
+            })
+    .then(response=>console.log(param, response.json(),console.log(bodyContent)))
+    .catch( error => alert("Erreur : " + error))
+        }
+
 // fetch de la valeur de l'input pour stocker l'uri cible en session coté serveur//
-
-async function fetchUri(param){
-  /*
-    try {
+/*
+async function fetchUri(param){    
+   
+   //console.log("Valeur envoyée :", param);
+   
+   try {
         const response = await fetch('index.php', {
-        method:'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body:JSON.stringify({'uri':param})
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:JSON.stringify({'uri':param}),
+        cache: 'no-store'
         })
-
+        
+        console.log("Corps de la requête envoyé :", JSON.stringify({ 'uri': param }));
+        
         if(response.ok){
             //impression retour serveurs dans la console: 200
             console.log('Le serveur a bien récupérer le nom de domaine');
-            const dataServer= await response;
+            const dataServer= await response.json();
             console.log(dataServer);
+            const data = await response.text(); // Utilisez `.text()` pour lire la réponse brute
+            console.log('Réponse du serveur :', data);
+          
         }
 
         if(!response.ok){
@@ -62,18 +83,17 @@ async function fetchUri(param){
         
     }catch{
         error => alert("Erreur : " + error)
+        //alert("Erreur : " + error);
     }  
+}
+
 */
 
-fetch('index.php',{
-        method:'POST',
-        headers: { 'Content-Type': 'application/json'},
-        body:JSON.stringify({'uri':param})
-        })
-.then(response=>console.log(response))
-.catch( error => alert("Erreur : " + error))
+//fetch basic avec statut: 200
+    
+    
 
-}
+
 
 </script>
 
