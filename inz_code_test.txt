@@ -1,0 +1,235 @@
+
+
+/* SCRIPT
+
+// depannage léger
+
+  async function getData() {
+  const url = 'index.php';
+  try {
+    const response = await fetch(url,{
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({"url1":"bite"})});
+
+
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const json = await response.json();
+    console.log(json);
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+getData();
+*/
+
+
+
+
+ // Récupération de l'uri cible côté client //
+        document.getElementById('button').addEventListener('click', async (e) => {
+            let uri = document.getElementById('input').value;
+
+            if (!uri) {
+                alert('Veuillez saisir une url');
+                return;
+            }
+            alert(`URI capturée : ${uri}`);
+            await fetchUri(uri); // appel de la fonction fetch pour envoyer l'uri au serveur         
+        });
+
+        function fetchUri(param) {
+            fetch('index.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cible: param })
+            })
+            .then(response => response)
+            .then(data => console.log(param, data))
+            .catch(error => alert("Erreur : " + error));
+        };
+
+
+
+
+
+
+// fetch de la valeur de l'input pour stocker l'uri cible en session coté serveur//
+            /*
+
+
+
+
+    
+            async function fetchUri(param){    
+            
+            //console.log("Valeur envoyée :", param);
+            
+            try {
+                    const response = await fetch('index.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:JSON.stringify({'uri':param}),
+                    cache: 'no-store'
+                    })
+                    
+                    console.log("Corps de la requête envoyé :", JSON.stringify({ 'uri': param }));
+                    
+                    if(response.ok){
+                        //impression retour serveurs dans la console: 200
+                        console.log('Le serveur a bien récupérer le nom de domaine');
+                        const dataServer= await response.json();
+                        console.log(dataServer);
+                        const data = await response.text(); // Utilisez `.text()` pour lire la réponse brute
+                        console.log('Réponse du serveur :', data);
+                    
+                    }
+        
+                    if(!response.ok){
+                        console.log('uri non transmise au serveur')
+                    }           
+                    
+                }catch{
+                    error => alert("Erreur : " + error)
+                    //alert("Erreur : " + error);
+                }  
+            }
+        
+            */
+        
+            //fetch basic avec statut: 200 
+
+//CMD
+curl -X POST http://localhost:3000/bot/index.php \-H "Content-Type: application/json" \-d '{"cible": "bite"}'
+
+
+
+
+
+
+
+
+/*  PHP
+
+
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
+
+      error_log("Début du traitement");
+      $data = file_get_contents('php://input');
+      var_dump($data);
+      if(!$data){
+            echo 'vide';
+      }
+      var_dump( $_POST);
+      error_log("Données reçues : " . $data);
+
+
+
+
+
+
+
+
+ //CONTROLES
+        if (empty($data)) {
+            echo 'Body reçu est vide';
+            exit;
+        }
+
+        $decodedData = json_decode($data, true);
+
+        if ($decodedData === null) {
+            echo 'JSON invalide ou non décodé';
+            exit;
+        }
+
+        echo 'Body reçu : ' . print_r($decodedData, true);
+
+
+
+
+
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            echo 'Requête POST reçue';
+        } else {
+            echo 'Méthode : ' . $_SERVER['REQUEST_METHOD'];
+        }
+
+*/
+
+
+        /* guzzle
+
+        session_start();
+        if($_SESSION){
+        }
+        $uri=$data;
+        // Utilisation d'une dépendance installée via Composer
+
+        $client = new Client();
+        $response = $client->get($uri);
+        echo $response->getBody();
+
+        */
+
+
+
+
+       /* Décodage JSON
+
+        $decodedData = json_decode($data, true); // true pour obtenir un tableau associatif
+        
+        if ($decodedData === null) {
+            echo 'Erreur : données JSON invalides ou inexistantes';
+            exit;
+        }
+        
+        // Affichage pour diagnostic
+        echo '<pre>'; // Formatage pour une meilleure lisibilité dans la console
+        print_r($decodedData);
+        echo '</pre>';
+
+        */
+
+        /*
+
+        $data = file_get_contents('php://input');
+        if ($data === false || empty($data)) {
+            var_dump('pas de data transmise');
+        } else {
+            echo "Données brutes reçues : " . $data;
+        }
+
+        $uri= json_decode($data, true);
+
+        if ($uri) {
+            echo "data serveur:" . " " . $uri;
+        } else {
+            echo "Aucune URI reçue.";
+        }
+            
+        */
+
+
+        /*
+        Gestion flux sortant avec CURL
+        curl_setopt($ch, CURLOPT_POST,true);
+        $http=curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        echo $data;
+
+        $uri = $_POST['uri'] ?? null;
+
+        if ($uri) {
+            echo "URI reçue via \$_POST : " . $uri;
+        } else {
+            echo "zero.";
+        }
+            
+        */
+
+        // Gestion flux sortant avec GUZZLE //
